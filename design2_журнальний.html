@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Михайло Круглов — особиста сторінка</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#efe9da;
+    --panel:#e2dbc6;
+    --ink:#23241f;
+    --muted:#5d5c50;
+    --forest:#2f4a3c;
+    --forest-deep:#1d2f26;
+    --rust:#a85c36;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans',sans-serif;
+    line-height:1.65;
+  }
+  h1,h2,h3{font-family:'Fraunces',serif; font-weight:500; letter-spacing:-0.01em;}
+  a{color:inherit;}
+
+  /* ---------- MASTHEAD ---------- */
+  .masthead{
+    background:var(--forest-deep);
+    color:var(--paper);
+    padding:1.4rem 6vw;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family:'Work Sans',sans-serif;
+    font-size:0.85rem;
+    letter-spacing:0.03em;
+  }
+  .masthead .issue{color:#b9c9bd;}
+
+  .wordmark{
+    padding:5.5rem 6vw 3rem;
+    background:var(--forest-deep);
+    color:var(--paper);
+  }
+  .wordmark h1{
+    font-size:clamp(3rem,10vw,7.2rem);
+    line-height:0.92;
+    font-weight:600;
+  }
+  .wordmark .role{
+    margin-top:1.6rem;
+    font-family:'Work Sans',sans-serif;
+    font-size:1.05rem;
+    color:#cdd9cf;
+    max-width:46ch;
+  }
+
+  /* ---------- INTRO SPREAD ---------- */
+  .spread{
+    display:grid;
+    grid-template-columns:1fr 1.15fr;
+    gap:0;
+  }
+  .avatar-block{
+    background:linear-gradient(155deg, var(--forest) 0%, #6b8f74 55%, var(--rust) 130%);
+    min-height:420px;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .avatar-block .initials{
+    font-family:'Fraunces',serif;
+    font-size:7rem;
+    color:var(--paper);
+    font-weight:500;
+  }
+  .avatar-block .caption{
+    position:absolute; bottom:1.4rem; left:1.6rem;
+    font-family:'Work Sans',sans-serif;
+    font-size:0.78rem; color:var(--paper);
+    letter-spacing:0.04em;
+  }
+  .intro-text{
+    padding:4rem 5vw;
+    display:flex; flex-direction:column; justify-content:center;
+    border-left:1px solid #c9c1a9;
+  }
+  .intro-text p{
+    font-size:1.28rem;
+    font-family:'Fraunces',serif;
+    font-weight:400;
+    line-height:1.5;
+    color:var(--ink);
+  }
+  .intro-text p + p{margin-top:1.2rem; font-size:1rem; font-family:'Work Sans',sans-serif; color:var(--muted); line-height:1.75;}
+
+  /* ---------- SECTION ---------- */
+  .section{
+    padding:4.5rem 6vw;
+    border-top:1px solid #c9c1a9;
+  }
+  .section-title{
+    display:flex; align-items:baseline; justify-content:space-between;
+    margin-bottom:2.6rem;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:0.8rem;
+  }
+  .section-title h2{font-size:1.9rem;}
+  .section-title .meta{font-family:'Work Sans',sans-serif; font-size:0.82rem; color:var(--muted);}
+
+  /* facts / stats as a ledger */
+  .ledger{display:grid; grid-template-columns:repeat(3,1fr); gap:2rem;}
+  .ledger .item{border-left:2px solid var(--rust); padding-left:1.1rem;}
+  .ledger .item .k{font-family:'Fraunces',serif; font-size:1.6rem; margin-bottom:0.3rem;}
+  .ledger .item .v{font-size:0.88rem; color:var(--muted);}
+
+  /* hobbies as editorial columns */
+  .columns{
+    columns:2 240px;
+    column-gap:3rem;
+  }
+  .entry{break-inside:avoid; margin-bottom:2.2rem;}
+  .entry h3{font-size:1.2rem; margin-bottom:0.5rem;}
+  .entry p{font-size:0.96rem; color:var(--muted);}
+
+  /* pull quote */
+  .pull-quote{
+    background:var(--panel);
+    padding:3rem 6vw;
+    font-family:'Fraunces',serif;
+    font-size:clamp(1.4rem,3vw,2rem);
+    line-height:1.4;
+    color:var(--forest-deep);
+    border-top:1px solid #c9c1a9;
+    border-bottom:1px solid #c9c1a9;
+  }
+  .pull-quote span{color:var(--rust);}
+
+  /* skills as a table-ish list */
+  .skill-table{width:100%; border-collapse:collapse;}
+  .skill-table tr{border-bottom:1px solid #c9c1a9;}
+  .skill-table tr:first-child{border-top:1px solid #c9c1a9;}
+  .skill-table td{padding:0.9rem 0.4rem; font-size:0.98rem;}
+  .skill-table td.tag{font-family:'Work Sans',sans-serif; color:var(--muted); font-size:0.8rem; width:12rem;}
+  .skill-table td.name{font-family:'Fraunces',serif; font-size:1.15rem;}
+
+  /* ---------- COLOPHON / footer ---------- */
+  .colophon{
+    background:var(--forest-deep);
+    color:#cdd9cf;
+    padding:3rem 6vw;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:2rem;
+    font-size:0.9rem;
+  }
+  .colophon h3{color:var(--paper); font-size:1.3rem; margin-bottom:1rem;}
+  .colophon a{color:var(--paper); text-decoration:underline; text-underline-offset:3px;}
+  .colophon .fine{color:#8fa093; font-size:0.78rem; margin-top:1.6rem;}
+
+  @media (max-width:820px){
+    .spread{grid-template-columns:1fr;}
+    .intro-text{border-left:none; border-top:1px solid #c9c1a9;}
+    .ledger{grid-template-columns:1fr;}
+    .colophon{grid-template-columns:1fr;}
+    .columns{columns:1;}
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <span>ОСОБИСТА СТОРІНКА</span>
+  <span class="issue">Випуск 01 · Київ, Україна</span>
+</div>
+
+<div class="wordmark">
+  <h1>Михайло<br>Круглов</h1>
+  <p class="role">Веброзробник, студент ФІТ КНУ ім. Тараса Шевченка та автор генеративних інструментів для контент-виробництва.</p>
+</div>
+
+<div class="spread">
+  <div class="avatar-block">
+    <span class="initials">МК</span>
+    <span class="caption">Михайло Круглов, 2026</span>
+  </div>
+  <div class="intro-text">
+    <p>«Мене цікавить усе, що на межі коду й мистецтва — від процедурних візерунків до звуку.»</p>
+    <p>Студент 2 курсу групи ВЕБ-21, який поєднує веброзробку з генеративним мистецтвом: пише код, що сам створює зображення, музику та автоматизовані відеопроцеси для дев'яти YouTube-каналів.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title"><h2>Коротко про мене</h2><span class="meta">розділ перший</span></div>
+  <div class="ledger">
+    <div class="item"><div class="k">2 курс</div><div class="v">ФІТ КНУ ім. Тараса Шевченка, група ВЕБ-21</div></div>
+    <div class="item"><div class="k">9 каналів</div><div class="v">Faceless YouTube-проєкти на автоматизованих пайплайнах</div></div>
+    <div class="item"><div class="k">3 мови</div><div class="v">Українська, російська, англійська</div></div>
+  </div>
+</div>
+
+<div class="pull-quote">
+  Генеративні системи, процедурна симуляція та музичні технології — це те, <span>де код перестає бути просто інструментом.</span>
+</div>
+
+<div class="section">
+  <div class="section-title"><h2>Захоплення</h2><span class="meta">розділ другий</span></div>
+  <div class="columns">
+    <div class="entry">
+      <h3>Генеративне мистецтво</h3>
+      <p>Алгоритми, що самостійно створюють візуальні композиції — шум, частинки, процедурні візерунки.</p>
+    </div>
+    <div class="entry">
+      <h3>Процедурна симуляція</h3>
+      <p>Правила, з яких народжуються складні системи: від фізики до автономних сцен.</p>
+    </div>
+    <div class="entry">
+      <h3>Музичні технології</h3>
+      <p>Звук як частина генеративного експерименту — атмосферний, мінімалістичний, живий.</p>
+    </div>
+    <div class="entry">
+      <h3>Темна атмосферна естетика</h3>
+      <p>Візуальний і звуковий смак, що тяжіє до меланхолійного мінімалізму.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title"><h2>Навички</h2><span class="meta">розділ третій</span></div>
+  <table class="skill-table">
+    <tr><td class="tag">Мови програмування</td><td class="name">JavaScript, Python</td></tr>
+    <tr><td class="tag">Фреймворки</td><td class="name">React, Next.js, Angular</td></tr>
+    <tr><td class="tag">Дані</td><td class="name">SQL-бази даних</td></tr>
+    <tr><td class="tag">Верстка</td><td class="name">HTML, CSS</td></tr>
+    <tr><td class="tag">Інше</td><td class="name">Автоматизація пайплайнів, генеративні інструменти</td></tr>
+  </table>
+</div>
+
+<div class="colophon">
+  <div>
+    <h3>Зв'язок</h3>
+    <p>Пошта: <a href="mailto:hello@mkruhlov.dev">hello@mkruhlov.dev</a></p>
+    <p>Telegram: <a href="#">@mkruhlov</a></p>
+    <p class="fine">© Михайло Круглов · сторінка-візитка · дизайн 2 з 2</p>
+  </div>
+  <div>
+    <h3>Про сторінку</h3>
+    <p>Одна сторінка, зверстана як особистий digital-зін: масткед, розвороти, колонки — замість типового лендингу.</p>
+  </div>
+</div>
+
+</body>
+</html>

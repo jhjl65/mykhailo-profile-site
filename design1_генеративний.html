@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Михайло Круглов — веброзробник</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b1210;
+    --panel:#121a17;
+    --panel-line:#22302a;
+    --text:#eef2ef;
+    --muted:#93a39c;
+    --teal:#57d9c0;
+    --amber:#e8b168;
+    --violet:#b18cf5;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-0.01em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:8vh 8vw 6vh;
+    overflow:hidden;
+    border-bottom:1px solid var(--panel-line);
+  }
+  #canvas-bg{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    opacity:0.55;
+  }
+  .hero-inner{position:relative; z-index:2; max-width:760px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.82rem;
+    color:var(--teal);
+    margin-bottom:1.6rem;
+    display:flex;
+    align-items:center;
+    gap:0.6rem;
+  }
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal); animation:pulse 2.4s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  .hero h1{
+    font-size:clamp(2.4rem, 6vw, 4.4rem);
+    line-height:1.04;
+    margin-bottom:1.4rem;
+  }
+  .hero h1 .accent{color:var(--teal);}
+  .hero p.lede{
+    font-size:1.15rem;
+    color:var(--muted);
+    max-width:540px;
+    margin-bottom:2.4rem;
+  }
+  .hero-actions{display:flex; gap:1rem; flex-wrap:wrap;}
+  .btn{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.92rem;
+    padding:0.85rem 1.5rem;
+    border-radius:3px;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:0.5rem;
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .btn-primary{background:var(--teal); color:#062019; font-weight:500;}
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-ghost{border:1px solid var(--panel-line); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--teal); transform:translateY(-2px);}
+
+  .scroll-cue{
+    position:absolute; bottom:2.4rem; left:8vw;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.75rem; color:var(--muted);
+    display:flex; align-items:center; gap:0.5rem;
+    z-index:2;
+  }
+  .scroll-cue .line{width:28px; height:1px; background:var(--muted);}
+
+  /* ---------- SECTION SHELL ---------- */
+  section.block{
+    padding:5.5rem 8vw;
+    border-bottom:1px solid var(--panel-line);
+  }
+  .section-head{
+    display:flex; align-items:baseline; gap:1rem;
+    margin-bottom:2.8rem;
+  }
+  .section-head .tag{font-family:'IBM Plex Mono',monospace; color:var(--amber); font-size:0.85rem;}
+  .section-head h2{font-size:clamp(1.6rem,3vw,2.2rem);}
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:4rem;
+    align-items:start;
+  }
+  .about-grid p{color:var(--muted); font-size:1.04rem; margin-bottom:1.1rem; max-width:60ch;}
+  .about-grid strong{color:var(--text); font-weight:500;}
+  .stat-panel{
+    background:var(--panel);
+    border:1px solid var(--panel-line);
+    border-radius:4px;
+    padding:1.8rem;
+  }
+  .stat-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:0.9rem 0;
+    border-bottom:1px solid var(--panel-line);
+  }
+  .stat-row:last-child{border-bottom:none;}
+  .stat-row .num{font-family:'Space Grotesk',sans-serif; font-size:1.6rem; color:var(--teal);}
+  .stat-row .label{font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--muted); text-align:right; max-width:60%;}
+
+  /* ---------- HOBBIES marquee-tags ---------- */
+  .hobby-list{display:flex; flex-wrap:wrap; gap:0.9rem;}
+  .hobby-card{
+    flex:1 1 240px;
+    background:var(--panel);
+    border:1px solid var(--panel-line);
+    border-radius:4px;
+    padding:1.6rem;
+    position:relative;
+    overflow:hidden;
+  }
+  .hobby-card .bars{display:flex; gap:3px; align-items:flex-end; height:26px; margin-bottom:1rem;}
+  .hobby-card .bars span{width:4px; background:var(--teal); border-radius:2px; animation:eq 1.4s ease-in-out infinite;}
+  .hobby-card:nth-child(2) .bars span{background:var(--amber);}
+  .hobby-card:nth-child(3) .bars span{background:var(--violet);}
+  .hobby-card:nth-child(4) .bars span{background:var(--teal);}
+  .hobby-card .bars span:nth-child(1){height:40%; animation-delay:0s;}
+  .hobby-card .bars span:nth-child(2){height:100%; animation-delay:.2s;}
+  .hobby-card .bars span:nth-child(3){height:65%; animation-delay:.4s;}
+  .hobby-card .bars span:nth-child(4){height:85%; animation-delay:.1s;}
+  .hobby-card .bars span:nth-child(5){height:50%; animation-delay:.3s;}
+  @keyframes eq{0%,100%{transform:scaleY(0.6);}50%{transform:scaleY(1);}}
+  .hobby-card h3{font-size:1.05rem; margin-bottom:0.5rem;}
+  .hobby-card p{font-size:0.92rem; color:var(--muted);}
+
+  /* ---------- SKILLS ---------- */
+  .skill-row{display:flex; flex-wrap:wrap; gap:0.7rem;}
+  .skill-chip{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.85rem;
+    padding:0.55rem 1rem;
+    border:1px solid var(--panel-line);
+    border-radius:3px;
+    color:var(--muted);
+  }
+  .skill-chip.on{color:var(--teal); border-color:var(--teal);}
+
+  /* ---------- CONTACT ---------- */
+  .contact-block{padding-bottom:7rem;}
+  .terminal{
+    background:var(--panel);
+    border:1px solid var(--panel-line);
+    border-radius:6px;
+    padding:2rem 2.2rem;
+    max-width:640px;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .terminal .top{display:flex; gap:0.4rem; margin-bottom:1.4rem;}
+  .terminal .top span{width:10px; height:10px; border-radius:50%; background:var(--panel-line);}
+  .terminal p{color:var(--muted); margin-bottom:0.5rem; font-size:0.92rem;}
+  .terminal .prompt{color:var(--teal);}
+  .terminal a{color:var(--amber); text-decoration:none;}
+  .terminal a:hover{text-decoration:underline;}
+
+  footer{
+    padding:2rem 8vw;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.78rem;
+    color:var(--muted);
+    display:flex; justify-content:space-between;
+  }
+
+  @media (max-width:760px){
+    .about-grid{grid-template-columns:1fr;}
+    .hero{padding:10vh 6vw 6vh;}
+    section.block{padding:4rem 6vw;}
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <canvas id="canvas-bg"></canvas>
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="dot"></span> зараз онлайн · Київ, Україна</div>
+    <h1>Михайло Круглов —<br>будую <span class="accent">генеративні</span> інструменти<br>та автопайплайни для вебу</h1>
+    <p class="lede">Веброзробник і студент факультету інформаційних технологій КНУ. Проєктую алгоритми, що самі створюють контент і керують процесами — від коду до дев'яти YouTube-каналів.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn btn-primary">Написати мені →</a>
+      <a href="#about" class="btn btn-ghost">Про мене</a>
+    </div>
+  </div>
+  <div class="scroll-cue"><span class="line"></span> гортайте вниз</div>
+</section>
+
+<section class="block" id="about">
+  <div class="section-head"><span class="tag">// 01</span><h2>Про мене</h2></div>
+  <div class="about-grid">
+    <div>
+      <p>Я — студент <strong>2 курсу КНУ імені Тараса Шевченка</strong> (факультет інформаційних технологій, група ВЕБ-21) і веброзробник. Працюю з <strong>JavaScript, Python, React, Next.js, Angular</strong> та SQL-базами даних.</p>
+      <p>Основний проєкт — портфель із <strong>дев'яти faceless YouTube-каналів</strong>, підтримуваних власними генеративними інструментами й автоматизованими пайплайнами: від генерації відео до публікації.</p>
+      <p>Мені цікаво все, що на межі коду й мистецтва — процедурна графіка, генеративні системи, музичні технології.</p>
+    </div>
+    <div class="stat-panel">
+      <div class="stat-row"><span class="num">9</span><span class="label">YouTube-каналів на автопілоті</span></div>
+      <div class="stat-row"><span class="num">2</span><span class="label">курс, ФІТ КНУ, ВЕБ-21</span></div>
+      <div class="stat-row"><span class="num">3</span><span class="label">мови: укр · рос · eng</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="hobbies">
+  <div class="section-head"><span class="tag">// 02</span><h2>Захоплення</h2></div>
+  <div class="hobby-list">
+    <div class="hobby-card">
+      <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
+      <h3>Генеративне мистецтво</h3>
+      <p>Алгоритми, що самі малюють — шум Перліна, частинки, процедурні візерунки.</p>
+    </div>
+    <div class="hobby-card">
+      <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
+      <h3>Процедурна симуляція</h3>
+      <p>Системи, що розвиваються за правилами: від фізики частинок до автономних сцен.</p>
+    </div>
+    <div class="hobby-card">
+      <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
+      <h3>Музичні технології</h3>
+      <p>Звук як ще один матеріал для генеративних і атмосферних експериментів.</p>
+    </div>
+    <div class="hobby-card">
+      <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
+      <h3>Темна атмосферна естетика</h3>
+      <p>Візуальний і звуковий стиль на межі мінімалізму та меланхолії.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="skills">
+  <div class="section-head"><span class="tag">// 03</span><h2>Навички</h2></div>
+  <div class="skill-row">
+    <span class="skill-chip on">JavaScript</span>
+    <span class="skill-chip on">Python</span>
+    <span class="skill-chip on">React</span>
+    <span class="skill-chip on">Next.js</span>
+    <span class="skill-chip on">Angular</span>
+    <span class="skill-chip">SQL</span>
+    <span class="skill-chip">HTML / CSS</span>
+    <span class="skill-chip">Автоматизація пайплайнів</span>
+  </div>
+</section>
+
+<section class="block contact-block" id="contact">
+  <div class="section-head"><span class="tag">// 04</span><h2>Зв'язок</h2></div>
+  <div class="terminal">
+    <div class="top"><span></span><span></span><span></span></div>
+    <p><span class="prompt">$</span> whoami</p>
+    <p>&gt; Михайло Круглов, веброзробник, Київ</p>
+    <p><span class="prompt">$</span> contact --email</p>
+    <p>&gt; <a href="mailto:hello@mkruhlov.dev">hello@mkruhlov.dev</a></p>
+    <p><span class="prompt">$</span> contact --telegram</p>
+    <p>&gt; <a href="#">@mkruhlov</a></p>
+  </div>
+</section>
+
+<footer>
+  <span>© Михайло Круглов</span>
+  <span>сторінка-візитка · дизайн 1 з 2</span>
+</footer>
+
+<script>
+  const canvas = document.getElementById('canvas-bg');
+  const ctx = canvas.getContext('2d');
+  let w, h, nodes = [];
+  const COLORS = ['#57d9c0', '#e8b168', '#b18cf5'];
+
+  function resize(){
+    w = canvas.width = canvas.offsetWidth;
+    h = canvas.height = canvas.offsetHeight;
+  }
+  window.addEventListener('resize', resize);
+
+  function init(){
+    resize();
+    nodes = [];
+    const count = Math.floor((w*h)/28000);
+    for(let i=0;i<count;i++){
+      nodes.push({
+        x: Math.random()*w,
+        y: Math.random()*h,
+        vx: (Math.random()-0.5)*0.35,
+        vy: (Math.random()-0.5)*0.35,
+        r: Math.random()*1.6+0.6,
+        c: COLORS[Math.floor(Math.random()*COLORS.length)]
+      });
+    }
+  }
+
+  function tick(){
+    ctx.clearRect(0,0,w,h);
+    for(const n of nodes){
+      n.x += n.vx; n.y += n.vy;
+      if(n.x<0||n.x>w) n.vx*=-1;
+      if(n.y<0||n.y>h) n.vy*=-1;
+    }
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const a=nodes[i], b=nodes[j];
+        const dx=a.x-b.x, dy=a.y-b.y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<130){
+          ctx.strokeStyle = 'rgba(87,217,192,'+(1-dist/130)*0.18+')';
+          ctx.lineWidth=1;
+          ctx.beginPath();
+          ctx.moveTo(a.x,a.y);
+          ctx.lineTo(b.x,b.y);
+          ctx.stroke();
+        }
+      }
+    }
+    for(const n of nodes){
+      ctx.beginPath();
+      ctx.fillStyle = n.c;
+      ctx.globalAlpha = 0.85;
+      ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+    requestAnimationFrame(tick);
+  }
+  init();
+  tick();
+</script>
+
+</body>
+</html>
